@@ -23,3 +23,27 @@ func (cli *ManagerCli) ShowHelp(cmd *cobra.Command, args []string) error {
 	cmd.HelpFunc()(cmd, args)
 	return nil
 }
+
+type option struct {
+	configFilePath string
+}
+
+// NewManagerCommand returns the main command of this exporter
+func NewManagerCommand(cli *ManagerCli) *cobra.Command {
+	opts := option{}
+
+	cmd := &cobra.Command{
+		Use:          "go-sql-export",
+		Short:        "SQL data exporter",
+		SilenceUsage: true,
+		RunE: func(cmd *cobra.Command, args []string) error {
+			return cli.ShowHelp(cmd, args)
+		},
+	}
+
+	flags := cmd.Flags()
+	flags.StringVarP(&opts.configFilePath, "config", "c", "", "path to configuration file")
+
+	AddCommands(cmd, cli, opts)
+	return cmd
+}
