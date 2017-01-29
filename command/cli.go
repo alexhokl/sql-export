@@ -11,10 +11,8 @@ type ManagerCli struct {
 }
 
 // NewManagerCli creates a new manager cli instance
-func NewManagerCli(config *model.ExportConfig) *ManagerCli {
-	cli := ManagerCli{
-		config: config,
-	}
+func NewManagerCli() *ManagerCli {
+	cli := ManagerCli{}
 	return &cli
 }
 

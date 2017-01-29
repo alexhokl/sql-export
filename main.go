@@ -5,13 +5,10 @@ import (
 	"os"
 
 	"github.com/alexhokl/go-sql-export/command"
-	"github.com/alexhokl/go-sql-export/model"
 )
 
 func main() {
-	config := model.ExportConfig{}
-
-	managerCli := command.NewManagerCli(&config)
+	managerCli := command.NewManagerCli()
 	cmd := command.NewManagerCommand(managerCli)
 
 	if err := cmd.Execute(); err != nil {

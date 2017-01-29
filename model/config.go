@@ -1,5 +1,12 @@
 package model
 
+import (
+	"io/ioutil"
+	"path/filepath"
+
+	yaml "gopkg.in/yaml.v2"
+)
+
 // ExportConfig struct
 type ExportConfig struct {
 	connectionString string `yaml:"connection_string"`
@@ -19,6 +26,25 @@ type ColumnConfig struct {
 	index    int
 	dataType string `yaml:"data_type"`
 	format   string
+}
+
+// ParseConfig returns configuration from the specified file path
+func ParseConfig(filePath string) (*ExportConfig, error) {
+	filename, errPath := filepath.Abs(filePath)
+	if errPath != nil {
+		return nil, errPath
+	}
+	yamlFile, errIo := ioutil.ReadFile(filename)
+	if errIo != nil {
+		return nil, errIo
+	}
+	config := ExportConfig{}
+	err := yaml.Unmarshal(yamlFile, &config)
+	if err != nil {
+		return nil, err
+	}
+
+	return &config, nil
 }
 
 // ConnectionString returns connection string
