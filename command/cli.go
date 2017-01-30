@@ -22,14 +22,12 @@ func (cli *ManagerCli) ShowHelp(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
-type option struct {
+type configOption struct {
 	configFilePath string
 }
 
 // NewManagerCommand returns the main command of this exporter
 func NewManagerCommand(cli *ManagerCli) *cobra.Command {
-	opts := option{}
-
 	cmd := &cobra.Command{
 		Use:          "go-sql-export",
 		Short:        "SQL data exporter",
@@ -39,9 +37,6 @@ func NewManagerCommand(cli *ManagerCli) *cobra.Command {
 		},
 	}
 
-	flags := cmd.Flags()
-	flags.StringVarP(&opts.configFilePath, "config", "c", "", "path to configuration file")
-
-	AddCommands(cmd, cli, opts)
+	AddCommands(cmd, cli)
 	return cmd
 }
