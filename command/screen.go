@@ -50,6 +50,7 @@ func runScreen(config *model.ExportConfig) error {
 	if errConn != nil {
 		return errConn
 	}
+	defer conn.Close()
 
 	dataList := []database.TableData{}
 	for _, s := range config.Sheets {
