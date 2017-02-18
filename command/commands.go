@@ -6,5 +6,6 @@ import "github.com/spf13/cobra"
 func AddCommands(cmd *cobra.Command, cli *ManagerCli) {
 	cmd.AddCommand(
 		NewScreenCommand(cli),
+		NewGSheetsCommand(cli),
 	)
 }

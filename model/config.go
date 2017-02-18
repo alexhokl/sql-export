@@ -23,9 +23,10 @@ type SheetConfig struct {
 
 // ColumnConfig struct
 type ColumnConfig struct {
-	Index    int    `yaml:"index"`
-	DataType string `yaml:"data_type"`
-	Format   string `yaml:"format"`
+	Index        int    `yaml:"index"`
+	DataType     string `yaml:"data_type"`
+	Format       string `yaml:"format"`
+	FixedDecimal int    `yaml:"fixed_decimal"`
 }
 
 // ParseConfig returns configuration from the specified file path
