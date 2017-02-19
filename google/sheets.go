@@ -133,15 +133,15 @@ func newColumnFormatRequest(sheetId int64, columns []model.ColumnConfig) *sheets
 	request := &sheets.BatchUpdateSpreadsheetRequest{}
 	for _, c := range columns {
 		switch c.DataType {
-		case "data":
+		case "date":
 			request.Requests = append(
 				request.Requests,
-				newDateFormatRequest(sheetId, int64(c.FixedDecimal), c.Format),
+				newDateFormatRequest(sheetId, int64(c.Index), c.Format),
 			)
 		case "money":
 			request.Requests = append(
 				request.Requests,
-				newMoneyFormatRequest(sheetId, int64(c.FixedDecimal)),
+				newMoneyFormatRequest(sheetId, int64(c.Index)),
 			)
 		default:
 			panic(fmt.Sprintf("Unknown column format type [%v]", c.DataType))
