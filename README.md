@@ -1,6 +1,18 @@
 # go-sql-export
 A command line tool to dump SQL data using T-SQL query
 
+Usage:
+  go-sql-export [command]
+
+Available Commands:
+
+Command | Description
+--- | ---
+screen    | Dump data from database and print it on screen
+gsheets     | Dump data from database and upload onto Google Sheets
+
+Use "go-sql-export [command] --help" for more information about a command.
+
 
 #### Sample configuration
 
