@@ -13,6 +13,9 @@ gsheets     | Dump data from database and upload onto Google Sheets
 
 Use "go-sql-export [command] --help" for more information about a command.
 
+Example:
+  `go-sql-export gsheets -c config.yml`
+
 
 #### Sample configuration
 
