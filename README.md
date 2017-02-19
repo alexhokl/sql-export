@@ -33,3 +33,9 @@ sheets:
         format: dd-MM-yyyy
 ```
 
+#### Development
+
+Please visit Google API console to create an application and enable Google
+Drive API. From the same application on API console, download credentials file
+and save it as `client_secret.json` in this development directory.
+
