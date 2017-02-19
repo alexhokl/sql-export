@@ -22,7 +22,11 @@ Use "go-sql-export [command] --help" for more information about a command.
 connection_string: "server=example.com;database=Northwind;User ID=sa;Password=pass;"
 document_name: Google.DocumentExport.Example
 sheets:
-  - name: nodes
+  - name: users
     query: "SELECT TOP 10 * FROM Users"
+    columns:
+      - index: 5
+        data_type: date
+        format: dd-MM-yyyy
 ```
 
