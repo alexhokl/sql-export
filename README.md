@@ -1,4 +1,4 @@
-# SQL export CLI
+# SQL export CLI [![Build Status](https://travis-ci.org/alexhokl/go-sql-export.svg?branch=master)](https://travis-ci.org/alexhokl/go-sql-export)
 A command line tool to dump SQL data using T-SQL query
 
 Usage:
