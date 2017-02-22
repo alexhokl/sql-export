@@ -4,8 +4,8 @@ import (
 	"errors"
 
 	"github.com/alexhokl/go-sql-export/database"
-	"github.com/alexhokl/go-sql-export/google"
 	"github.com/alexhokl/go-sql-export/model"
+	"github.com/alexhokl/googleapi"
 	"github.com/spf13/cobra"
 )
 
@@ -65,23 +65,23 @@ func runSheetExport(config *model.ExportConfig) error {
 }
 
 func uploadDataList(list []database.TableData, config *model.ExportConfig) error {
-	httpClient, errAuth := google.NewHttpClient("client_secret.json")
+	httpClient, errAuth := googleapi.NewHttpClient("client_secret.json")
 	if errAuth != nil {
 		return errAuth
 	}
 
-	service, errCreateService := google.NewSpreadsheetService(httpClient)
+	service, errCreateService := googleapi.NewSpreadsheetService(httpClient)
 	if errCreateService != nil {
 		return errCreateService
 	}
 
-	document, errCreateDocument := google.CreateSpreadSheet(service, config.DocumentName)
+	document, errCreateDocument := googleapi.CreateSpreadSheet(service, config.DocumentName)
 	if errCreateDocument != nil {
 		return errCreateDocument
 	}
 
 	for index, data := range list {
-		sheetId, errCreate := google.CreateSheet(
+		sheetId, errCreate := googleapi.CreateSheet(
 			service,
 			document,
 			index,
@@ -93,7 +93,7 @@ func uploadDataList(list []database.TableData, config *model.ExportConfig) error
 			return errCreate
 		}
 
-		errColumns := google.UpdateColumnHeaders(
+		errColumns := googleapi.UpdateColumnHeaders(
 			service,
 			document,
 			config.Sheets[index].Name,
@@ -103,7 +103,7 @@ func uploadDataList(list []database.TableData, config *model.ExportConfig) error
 			return errColumns
 		}
 
-		errRows := google.UpdateRows(
+		errRows := googleapi.UpdateRows(
 			service,
 			document,
 			config.Sheets[index].Name,
@@ -113,11 +113,16 @@ func uploadDataList(list []database.TableData, config *model.ExportConfig) error
 			return errRows
 		}
 
-		errFormat := google.UpdateColumnStyles(
+		var columnConfig []googleapi.ColumnFormatConfig
+		for _, c := range config.Sheets[index].Columns {
+			columnConfig = append(columnConfig, c)
+		}
+
+		errFormat := googleapi.UpdateColumnStyles(
 			service,
 			document,
 			sheetId,
-			config.Sheets[index].Columns,
+			columnConfig,
 		)
 		if errFormat != nil {
 			return errFormat
