@@ -22,7 +22,12 @@ Example:
 ##### `config.yml`
 
 ```yml
-connection_string: "server=example.com;database=Northwind;User ID=sa;Password=pass;"
+database:
+  server: example.com
+  port: 1433
+  name: Northwind
+  username: sa
+  password: pass
 document_name: Google.DocumentExport.Example
 sheets:
   - name: users

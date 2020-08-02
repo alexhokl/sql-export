@@ -8,7 +8,7 @@ import (
 	"text/tabwriter"
 	"time"
 
-	"github.com/alexhokl/go-sql-export/database"
+	"github.com/alexhokl/database"
 	"github.com/alexhokl/go-sql-export/model"
 	"github.com/spf13/cobra"
 )
@@ -46,7 +46,7 @@ func NewScreenCommand(cli *ManagerCli) *cobra.Command {
 }
 
 func runScreen(config *model.ExportConfig) error {
-	conn, errConn := database.GetConnection(config.ConnectionString)
+	conn, errConn := database.GetConnection(&config.Database)
 	if errConn != nil {
 		return errConn
 	}

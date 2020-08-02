@@ -4,14 +4,15 @@ import (
 	"io/ioutil"
 	"path/filepath"
 
+	"github.com/alexhokl/database"
 	yaml "gopkg.in/yaml.v2"
 )
 
 // ExportConfig struct
 type ExportConfig struct {
-	ConnectionString string        `yaml:"connection_string"`
-	DocumentName     string        `yaml:"document_name"`
-	Sheets           []SheetConfig `yaml:"sheets"`
+	Database     database.Config `yaml:"database"`
+	DocumentName string          `yaml:"document_name"`
+	Sheets       []SheetConfig   `yaml:"sheets"`
 }
 
 // SheetConfig struct

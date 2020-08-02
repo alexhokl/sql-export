@@ -3,7 +3,7 @@ package command
 import (
 	"errors"
 
-	"github.com/alexhokl/go-sql-export/database"
+	"github.com/alexhokl/database"
 	"github.com/alexhokl/go-sql-export/model"
 	"github.com/alexhokl/googleapi"
 	"github.com/spf13/cobra"
@@ -42,7 +42,7 @@ func NewGSheetsCommand(cli *ManagerCli) *cobra.Command {
 }
 
 func runSheetExport(config *model.ExportConfig) error {
-	conn, errConn := database.GetConnection(config.ConnectionString)
+	conn, errConn := database.GetConnection(&config.Database)
 	if errConn != nil {
 		return errConn
 	}
