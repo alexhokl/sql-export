@@ -4,7 +4,7 @@ import (
 	"io/ioutil"
 	"path/filepath"
 
-	"github.com/alexhokl/database"
+	"github.com/alexhokl/helper/database"
 	yaml "gopkg.in/yaml.v2"
 )
 

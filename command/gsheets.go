@@ -3,9 +3,9 @@ package command
 import (
 	"errors"
 
-	"github.com/alexhokl/database"
 	"github.com/alexhokl/go-sql-export/model"
-	"github.com/alexhokl/googleapi"
+	"github.com/alexhokl/helper/database"
+	"github.com/alexhokl/helper/googleapi"
 	"github.com/spf13/cobra"
 )
 
