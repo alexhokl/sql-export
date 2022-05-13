@@ -4,7 +4,7 @@ A command line tool to dump SQL data using T-SQL query
 Usage:
   go-sql-export [command]
 
-Available Commands:
+### Available Commands
 
 Command | Description
 --- | ---
@@ -16,8 +16,7 @@ Use "go-sql-export [command] --help" for more information about a command.
 Example:
   `go-sql-export gsheets -c config.yml`
 
-
-#### Sample configuration
+### Sample configuration
 
 ##### `config.yml`
 
@@ -38,7 +37,13 @@ sheets:
         format: dd-MM-yyyy
 ```
 
-#### Development
+### Installation
+
+```sh
+go install github.com/alexhokl/go-sql-export@latest
+```
+
+### Development
 
 Please visit Google API console to create an application and enable Google
 Drive API. From the same application on API console, download credentials file
