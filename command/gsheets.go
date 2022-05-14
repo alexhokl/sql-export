@@ -1,6 +1,7 @@
 package command
 
 import (
+	"context"
 	"errors"
 
 	"github.com/alexhokl/go-sql-export/model"
@@ -25,7 +26,7 @@ func NewGSheetsCommand(cli *ManagerCli) *cobra.Command {
 				return nil
 			}
 			if opts.configFilePath == "" {
-				return errors.New("Configuration file is not specified")
+				return errors.New("configuration file is not specified")
 			}
 			config, errConfig := model.ParseConfig(opts.configFilePath)
 			if errConfig != nil {
@@ -65,9 +66,19 @@ func runSheetExport(config *model.ExportConfig) error {
 }
 
 func uploadDataList(list []database.TableData, config *model.ExportConfig) error {
-	httpClient, errAuth := googleapi.NewHttpClient("client_secret.json")
+	scopes := []string{
+		"https://www.googleapis.com/auth/spreadsheets",
+		"https://www.googleapis.com/auth/drive",
+	}
+	clientSecretFilePath :="client_secret.json"
+	ctx := context.Background()
+	token, errAuth := googleapi.GetToken(ctx, clientSecretFilePath, scopes)
 	if errAuth != nil {
 		return errAuth
+	}
+	httpClient, errClient := googleapi.NewHttpClient(ctx, clientSecretFilePath, token)
+	if errClient != nil {
+		return errClient
 	}
 
 	service, errCreateService := googleapi.NewSpreadsheetService(httpClient)

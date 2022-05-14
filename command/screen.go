@@ -25,7 +25,7 @@ func NewScreenCommand(cli *ManagerCli) *cobra.Command {
 				return nil
 			}
 			if opts.configFilePath == "" {
-				return errors.New("Configuration file is not specified")
+				return errors.New("configuration file is not specified")
 			}
 			config, errConfig := model.ParseConfig(opts.configFilePath)
 			if errConfig != nil {
