@@ -70,13 +70,12 @@ func uploadDataList(list []database.TableData, config *model.ExportConfig) error
 		"https://www.googleapis.com/auth/spreadsheets",
 		"https://www.googleapis.com/auth/drive",
 	}
-	clientSecretFilePath :="client_secret.json"
 	ctx := context.Background()
-	token, errAuth := googleapi.GetToken(ctx, clientSecretFilePath, scopes)
+	token, errAuth := googleapi.GetToken(ctx, config.GoogleClientSecretFilePath, scopes)
 	if errAuth != nil {
 		return errAuth
 	}
-	httpClient, errClient := googleapi.NewHttpClient(ctx, clientSecretFilePath, token)
+	httpClient, errClient := googleapi.NewHttpClient(ctx, config.GoogleClientSecretFilePath, token)
 	if errClient != nil {
 		return errClient
 	}

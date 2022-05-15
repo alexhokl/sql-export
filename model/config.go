@@ -10,9 +10,10 @@ import (
 
 // ExportConfig struct
 type ExportConfig struct {
-	Database     database.Config `yaml:"database"`
-	DocumentName string          `yaml:"document_name"`
-	Sheets       []SheetConfig   `yaml:"sheets"`
+	Database                   database.Config `yaml:"database"`
+	DocumentName               string          `yaml:"document_name"`
+	Sheets                     []SheetConfig   `yaml:"sheets"`
+	GoogleClientSecretFilePath string          `yaml:"google_client_secret_file_path"`
 }
 
 // SheetConfig struct
