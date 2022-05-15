@@ -10,6 +10,7 @@ import (
 
 // ExportConfig struct
 type ExportConfig struct {
+	DatabaseType               string          `yaml:"database_type"`
 	Database                   database.Config `yaml:"database"`
 	DocumentName               string          `yaml:"document_name"`
 	Sheets                     []SheetConfig   `yaml:"sheets"`

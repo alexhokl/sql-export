@@ -42,7 +42,7 @@ func NewScreenCommand(cli *ManagerCli) *cobra.Command {
 }
 
 func runScreen(config *model.ExportConfig) error {
-	conn, errConn := database.GetConnection(&config.Database)
+	conn, errConn := getDatabaseConnection(config)
 	if errConn != nil {
 		return errConn
 	}

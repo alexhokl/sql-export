@@ -3,7 +3,7 @@ module github.com/alexhokl/go-sql-export
 go 1.14
 
 require (
-	github.com/alexhokl/helper v0.0.33
+	github.com/alexhokl/helper v0.0.36
 	github.com/spf13/cobra v1.0.0
 	github.com/spf13/pflag v1.0.5 // indirect
 	golang.org/x/crypto v0.0.0-20200728195943-123391ffb6de // indirect

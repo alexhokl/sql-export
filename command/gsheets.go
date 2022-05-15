@@ -43,7 +43,7 @@ func NewGSheetsCommand(cli *ManagerCli) *cobra.Command {
 }
 
 func runSheetExport(config *model.ExportConfig) error {
-	conn, errConn := database.GetConnection(&config.Database)
+	conn, errConn := getDatabaseConnection(config)
 	if errConn != nil {
 		return errConn
 	}
