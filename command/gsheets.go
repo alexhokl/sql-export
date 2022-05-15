@@ -43,18 +43,14 @@ func NewGSheetsCommand(cli *ManagerCli) *cobra.Command {
 }
 
 func runSheetExport(config *model.ExportConfig) error {
-	conn, errConn := getDatabaseConnection(config)
-	if errConn != nil {
-		return errConn
+	conn, err := getDatabaseConnection(config)
+	if err != nil {
+		return err
 	}
 
-	dataList := []database.TableData{}
-	for _, s := range config.Sheets {
-		data, errData := database.GetData(conn, s.Query)
-		if errData != nil {
-			return errData
-		}
-		dataList = append(dataList, *data)
+	dataList, err := getData(conn, config.Sheets)
+	if err != nil {
+		return err
 	}
 
 	errUpload := uploadDataList(dataList, config)

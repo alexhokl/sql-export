@@ -48,13 +48,9 @@ func runScreen(config *model.ExportConfig) error {
 	}
 	defer conn.Close()
 
-	dataList := []database.TableData{}
-	for _, s := range config.Sheets {
-		data, errData := database.GetData(conn, s.Query)
-		if errData != nil {
-			return errData
-		}
-		dataList = append(dataList, *data)
+	dataList, err := getData(conn, config.Sheets)
+	if err != nil {
+		return err
 	}
 
 	database.DumpTables(dataList)

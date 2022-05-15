@@ -22,3 +22,15 @@ func getDatabaseConnection(config *model.ExportConfig) (*sql.DB, error) {
 		return nil, fmt.Errorf("un-supported database type [%s]", config.DatabaseType)
 	}
 }
+
+func getData(conn *sql.DB, sheets []model.SheetConfig) ([]database.TableData, error) {
+	dataList := []database.TableData{}
+	for _, s := range sheets {
+		data, errData := database.GetData(conn, s.Query)
+		if errData != nil {
+			return nil, errData
+		}
+		dataList = append(dataList, *data)
+	}
+	return dataList, nil
+}
