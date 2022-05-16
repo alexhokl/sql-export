@@ -1,4 +1,4 @@
-module github.com/alexhokl/go-sql-export
+module github.com/alexhokl/sql-export
 
 go 1.14
 

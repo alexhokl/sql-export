@@ -1,9 +1,9 @@
-# SQL export CLI [![Build Status](https://travis-ci.org/alexhokl/go-sql-export.svg?branch=master)](https://travis-ci.org/alexhokl/go-sql-export)
+# SQL export CLI [![Build Status](https://travis-ci.org/alexhokl/sql-export.svg?branch=master)](https://travis-ci.org/alexhokl/sql-export)
 
 A command line tool to dump SQL data using T-SQL query
 
 Usage:
-  go-sql-export [command]
+  sql-export [command]
 
 ### Available Commands
 
@@ -12,10 +12,10 @@ Command | Description
 screen  | Dump data from database and print it on screen
 gsheets | Dump data from database and upload onto Google Sheets
 
-Use "go-sql-export [command] --help" for more information about a command.
+Use "sql-export [command] --help" for more information about a command.
 
 Example:
-  `go-sql-export gsheets -c config.yml`
+  `sql-export gsheets -c config.yml`
 
 ### Sample configuration
 
@@ -43,7 +43,7 @@ sheets:
 ### Installation
 
 ```sh
-go install github.com/alexhokl/go-sql-export@latest
+go install github.com/alexhokl/sql-export@latest
 ```
 
 ### Development

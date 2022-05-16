@@ -1,7 +1,7 @@
 package command
 
 import (
-	"github.com/alexhokl/go-sql-export/model"
+	"github.com/alexhokl/sql-export/model"
 	"github.com/spf13/cobra"
 )
 
@@ -29,7 +29,7 @@ type configOption struct {
 // NewManagerCommand returns the main command of this exporter
 func NewManagerCommand(cli *ManagerCli) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:          "go-sql-export",
+		Use:          "sql-export",
 		Short:        "SQL data exporter",
 		SilenceUsage: true,
 		RunE: func(cmd *cobra.Command, args []string) error {

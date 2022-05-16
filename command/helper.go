@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/alexhokl/go-sql-export/model"
+	"github.com/alexhokl/sql-export/model"
 	"github.com/alexhokl/helper/database"
 )
 

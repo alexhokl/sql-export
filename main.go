@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/alexhokl/go-sql-export/command"
+	"github.com/alexhokl/sql-export/command"
 )
 
 func main() {
