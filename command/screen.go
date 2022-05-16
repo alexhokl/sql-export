@@ -46,7 +46,7 @@ func runScreen(config *model.ExportConfig) error {
 	if errConn != nil {
 		return errConn
 	}
-	defer conn.Close()
+	// defer conn.Close()
 
 	dataList, err := getData(conn, config.Sheets)
 	if err != nil {
