@@ -3,8 +3,8 @@ package command
 import (
 	"errors"
 
-	"github.com/alexhokl/sql-export/model"
 	"github.com/alexhokl/helper/database"
+	"github.com/alexhokl/sql-export/model"
 	"github.com/spf13/cobra"
 )
 

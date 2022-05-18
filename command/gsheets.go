@@ -67,15 +67,22 @@ func uploadDataList(list []database.TableData, config *model.ExportConfig) error
 		"https://www.googleapis.com/auth/drive",
 	}
 	ctx := context.Background()
-	token, errAuth := googleapi.GetToken(ctx, config.GoogleClientSecretFilePath, scopes)
+	client, errAuth := googleapi.New(
+		ctx,
+		config.GoogleClientSecretFilePath,
+		"",
+		"",
+		scopes,
+	)
 	if errAuth != nil {
 		return errAuth
 	}
-	httpClient, errClient := googleapi.NewHttpClient(ctx, config.GoogleClientSecretFilePath, token)
-	if errClient != nil {
-		return errClient
+	_, err := client.GetToken()
+	if err != nil {
+		return err
 	}
 
+	httpClient := client.NewHttpClient()
 	service, errCreateService := googleapi.NewSpreadsheetService(httpClient)
 	if errCreateService != nil {
 		return errCreateService
