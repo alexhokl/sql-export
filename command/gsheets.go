@@ -66,7 +66,6 @@ func runSheetExport(config *model.ExportConfig) error {
 func uploadDataList(list []database.TableData, config *model.ExportConfig) error {
 	scopes := []string{
 		"https://www.googleapis.com/auth/spreadsheets",
-		"https://www.googleapis.com/auth/drive",
 	}
 	ctx := context.Background()
 	client, errAuth := googleapi.New(
