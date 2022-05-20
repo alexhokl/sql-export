@@ -3,10 +3,12 @@ package command
 import (
 	"context"
 	"errors"
+	"fmt"
 
-	"github.com/alexhokl/sql-export/model"
+	"github.com/alexhokl/helper/cli"
 	"github.com/alexhokl/helper/database"
 	"github.com/alexhokl/helper/googleapi"
+	"github.com/alexhokl/sql-export/model"
 	"github.com/spf13/cobra"
 )
 
@@ -140,6 +142,11 @@ func uploadDataList(list []database.TableData, config *model.ExportConfig) error
 		if errFormat != nil {
 			return errFormat
 		}
+	}
+
+	fmt.Printf("spreadsheet has been created on [%s]", 	document.SpreadsheetUrl)
+	if err := cli.OpenInBrowser(document.SpreadsheetUrl); err != nil {
+		return err
 	}
 
 	return nil
