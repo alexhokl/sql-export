@@ -31,24 +31,29 @@ func NewScreenCommand(cli *ManagerCli) *cobra.Command {
 			if errConfig != nil {
 				return errConfig
 			}
-			return runScreen(config)
+			replacements, err := getReplacementMap(opts.replacements)
+			if err != nil {
+				return err
+			}
+			return runScreen(config, replacements)
 		},
 	}
 
 	flags := cmd.Flags()
 	flags.StringVarP(&opts.configFilePath, "config", "c", "", "path to configuration file")
+	flags.StringArrayVarP(&opts.replacements, "replace", "r", []string{}, "replacements to SQL queries (in format key:value)")
 
 	return cmd
 }
 
-func runScreen(config *model.ExportConfig) error {
+func runScreen(config *model.ExportConfig, replacements map[string]string) error {
 	conn, errConn := getDatabaseConnection(config)
 	if errConn != nil {
 		return errConn
 	}
 	// defer conn.Close()
 
-	dataList, err := getData(conn, config.Sheets)
+	dataList, err := getData(conn, config.Sheets, replacements)
 	if err != nil {
 		return err
 	}

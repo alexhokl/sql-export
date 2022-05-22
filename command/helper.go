@@ -3,9 +3,10 @@ package command
 import (
 	"database/sql"
 	"fmt"
+	"strings"
 
-	"github.com/alexhokl/sql-export/model"
 	"github.com/alexhokl/helper/database"
+	"github.com/alexhokl/sql-export/model"
 )
 
 func getDatabaseConnection(config *model.ExportConfig) (*sql.DB, error) {
@@ -23,10 +24,14 @@ func getDatabaseConnection(config *model.ExportConfig) (*sql.DB, error) {
 	}
 }
 
-func getData(conn *sql.DB, sheets []model.SheetConfig) ([]database.TableData, error) {
+func getData(conn *sql.DB, sheets []model.SheetConfig, replacements map[string]string) ([]database.TableData, error) {
 	dataList := []database.TableData{}
 	for _, s := range sheets {
-		data, errData := database.GetData(conn, s.Query)
+		query := s.Query
+		for k, v := range replacements {
+			query = strings.ReplaceAll(query, k, v)
+		}
+		data, errData := database.GetData(conn, query)
 		if errData != nil {
 			return nil, errData
 		}

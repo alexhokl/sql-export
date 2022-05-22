@@ -34,23 +34,28 @@ func NewGSheetsCommand(cli *ManagerCli) *cobra.Command {
 			if errConfig != nil {
 				return errConfig
 			}
-			return runSheetExport(config)
+			replacements, err := getReplacementMap(opts.replacements)
+			if err != nil {
+				return err
+			}
+			return runSheetExport(config, replacements)
 		},
 	}
 
 	flags := cmd.Flags()
 	flags.StringVarP(&opts.configFilePath, "config", "c", "", "path to configuration file")
+	flags.StringArrayVarP(&opts.replacements, "replace", "r", []string{}, "replacements to SQL queries (in format key:value)")
 
 	return cmd
 }
 
-func runSheetExport(config *model.ExportConfig) error {
+func runSheetExport(config *model.ExportConfig, replacements map[string]string) error {
 	conn, err := getDatabaseConnection(config)
 	if err != nil {
 		return err
 	}
 
-	dataList, err := getData(conn, config.Sheets)
+	dataList, err := getData(conn, config.Sheets, replacements)
 	if err != nil {
 		return err
 	}
