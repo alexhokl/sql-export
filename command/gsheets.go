@@ -38,7 +38,7 @@ func NewGSheetsCommand(cli *ManagerCli) *cobra.Command {
 			if err != nil {
 				return err
 			}
-			return runSheetExport(config, replacements)
+			return runSheetExport(cmd.Context(), config, replacements)
 		},
 	}
 
@@ -49,7 +49,7 @@ func NewGSheetsCommand(cli *ManagerCli) *cobra.Command {
 	return cmd
 }
 
-func runSheetExport(config *model.ExportConfig, replacements map[string]string) error {
+func runSheetExport(ctx context.Context, config *model.ExportConfig, replacements map[string]string) error {
 	conn, err := getDatabaseConnection(config)
 	if err != nil {
 		return err
@@ -60,7 +60,7 @@ func runSheetExport(config *model.ExportConfig, replacements map[string]string) 
 		return err
 	}
 
-	errUpload := uploadDataList(dataList, config)
+	errUpload := uploadDataList(ctx, dataList, config)
 	if errUpload != nil {
 		return errUpload
 	}
@@ -68,16 +68,14 @@ func runSheetExport(config *model.ExportConfig, replacements map[string]string) 
 	return nil
 }
 
-func uploadDataList(list []database.TableData, config *model.ExportConfig) error {
+func uploadDataList(ctx context.Context, list []database.TableData, config *model.ExportConfig) error {
 	scopes := []string{
 		"https://www.googleapis.com/auth/spreadsheets",
 	}
-	ctx := context.Background()
 	client, errAuth := googleapi.New(
 		ctx,
 		config.GoogleClientSecretFilePath,
-		"",
-		"",
+		nil,
 		scopes,
 	)
 	if errAuth != nil {
@@ -89,7 +87,7 @@ func uploadDataList(list []database.TableData, config *model.ExportConfig) error
 	}
 
 	httpClient := client.NewHttpClient()
-	service, errCreateService := googleapi.NewSpreadsheetService(httpClient)
+	service, errCreateService := googleapi.NewSpreadsheetService(ctx, httpClient)
 	if errCreateService != nil {
 		return errCreateService
 	}
@@ -148,7 +146,7 @@ func uploadDataList(list []database.TableData, config *model.ExportConfig) error
 		}
 	}
 
-	fmt.Printf("spreadsheet has been created on [%s]", 	document.SpreadsheetUrl)
+	fmt.Printf("spreadsheet has been created on [%s]", document.SpreadsheetUrl)
 	if err := cli.OpenInBrowser(document.SpreadsheetUrl); err != nil {
 		return err
 	}
