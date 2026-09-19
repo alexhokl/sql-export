@@ -5,7 +5,7 @@ go 1.27.1
 require (
 	github.com/alexhokl/helper v0.0.92
 	github.com/spf13/cobra v1.9.1
-	gopkg.in/yaml.v2 v2.4.0
+	gopkg.in/yaml.v3 v3.0.1
 )
 
 require (
@@ -84,7 +84,6 @@ require (
 	google.golang.org/grpc v1.73.0 // indirect
 	google.golang.org/protobuf v1.36.6 // indirect
 	googlemaps.github.io/maps v1.7.0 // indirect
-	gopkg.in/yaml.v3 v3.0.1 // indirect
 	gorm.io/driver/postgres v1.5.11 // indirect
 	gorm.io/gorm v1.25.10 // indirect
 )

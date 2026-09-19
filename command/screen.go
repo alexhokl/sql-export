@@ -1,8 +1,6 @@
 package command
 
 import (
-	"errors"
-
 	"github.com/alexhokl/helper/database"
 	"github.com/alexhokl/sql-export/model"
 	"github.com/spf13/cobra"
@@ -24,14 +22,7 @@ func NewScreenCommand(cli *ManagerCli) *cobra.Command {
 				cli.ShowHelp(cmd, args)
 				return nil
 			}
-			if opts.configFilePath == "" {
-				return errors.New("configuration file is not specified")
-			}
-			config, errConfig := model.ParseConfig(opts.configFilePath)
-			if errConfig != nil {
-				return errConfig
-			}
-			replacements, err := getReplacementMap(opts.replacements)
+			config, replacements, err := loadConfigWithReplacements(opts.configOption)
 			if err != nil {
 				return err
 			}
@@ -51,7 +42,7 @@ func runScreen(config *model.ExportConfig, replacements map[string]string) error
 	if errConn != nil {
 		return errConn
 	}
-	// defer conn.Close()
+	defer conn.Close()
 
 	dataList, err := getData(conn, config.Sheets, replacements)
 	if err != nil {

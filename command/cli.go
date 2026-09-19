@@ -10,7 +10,6 @@ import (
 
 // ManagerCli struct
 type ManagerCli struct {
-	config *model.ExportConfig
 }
 
 // NewManagerCli creates a new manager cli instance
@@ -28,6 +27,23 @@ func (cli *ManagerCli) ShowHelp(cmd *cobra.Command, args []string) error {
 type configOption struct {
 	configFilePath string
 	replacements   []string
+}
+
+// loadConfigWithReplacements parses the configuration file and
+// replacement flags shared by all export commands
+func loadConfigWithReplacements(opts configOption) (*model.ExportConfig, map[string]string, error) {
+	if opts.configFilePath == "" {
+		return nil, nil, fmt.Errorf("configuration file is not specified")
+	}
+	config, errConfig := model.ParseConfig(opts.configFilePath)
+	if errConfig != nil {
+		return nil, nil, errConfig
+	}
+	replacements, err := getReplacementMap(opts.replacements)
+	if err != nil {
+		return nil, nil, err
+	}
+	return config, replacements, nil
 }
 
 // NewManagerCommand returns the main command of this exporter
@@ -51,12 +67,12 @@ func getReplacementMap(replacements []string) (map[string]string, error) {
 		if r == "" {
 			continue
 		}
-		splits := strings.Split(r, ":")
+		splits := strings.SplitN(r, ":", 2)
 		if len(splits) != 2 {
-			return nil, fmt.Errorf("invalid format of replacements")
+			return nil, fmt.Errorf("invalid replacement %q: expected format key:value", r)
 		}
 		if _, exists := m[splits[0]]; exists {
-			return nil, fmt.Errorf("duplicated replacements")
+			return nil, fmt.Errorf("duplicated replacement key %q", splits[0])
 		}
 		m[splits[0]] = splits[1]
 	}

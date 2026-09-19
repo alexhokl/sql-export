@@ -2,7 +2,6 @@ package command
 
 import (
 	"context"
-	"errors"
 	"fmt"
 
 	"github.com/alexhokl/helper/cli"
@@ -27,14 +26,7 @@ func NewGSheetsCommand(cli *ManagerCli) *cobra.Command {
 				cli.ShowHelp(cmd, args)
 				return nil
 			}
-			if opts.configFilePath == "" {
-				return errors.New("configuration file is not specified")
-			}
-			config, errConfig := model.ParseConfig(opts.configFilePath)
-			if errConfig != nil {
-				return errConfig
-			}
-			replacements, err := getReplacementMap(opts.replacements)
+			config, replacements, err := loadConfigWithReplacements(opts.configOption)
 			if err != nil {
 				return err
 			}
@@ -54,6 +46,7 @@ func runSheetExport(ctx context.Context, config *model.ExportConfig, replacement
 	if err != nil {
 		return err
 	}
+	defer conn.Close()
 
 	dataList, err := getData(conn, config.Sheets, replacements)
 	if err != nil {
@@ -146,7 +139,7 @@ func uploadDataList(ctx context.Context, list []database.TableData, config *mode
 		}
 	}
 
-	fmt.Printf("spreadsheet has been created on [%s]", document.SpreadsheetUrl)
+	fmt.Printf("spreadsheet has been created on [%s]\n", document.SpreadsheetUrl)
 	if err := cli.OpenInBrowser(document.SpreadsheetUrl); err != nil {
 		return err
 	}

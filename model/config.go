@@ -1,11 +1,12 @@
 package model
 
 import (
-	"io/ioutil"
+	"fmt"
+	"os"
 	"path/filepath"
 
 	"github.com/alexhokl/helper/database"
-	yaml "gopkg.in/yaml.v2"
+	yaml "gopkg.in/yaml.v3"
 )
 
 // ExportConfig struct
@@ -49,7 +50,7 @@ func ParseConfig(filePath string) (*ExportConfig, error) {
 	if errPath != nil {
 		return nil, errPath
 	}
-	yamlFile, errIo := ioutil.ReadFile(filename)
+	yamlFile, errIo := os.ReadFile(filename)
 	if errIo != nil {
 		return nil, errIo
 	}
@@ -59,5 +60,30 @@ func ParseConfig(filePath string) (*ExportConfig, error) {
 		return nil, err
 	}
 
+	if err := config.Validate(); err != nil {
+		return nil, err
+	}
+
 	return &config, nil
+}
+
+// Validate checks the configuration values
+func (c *ExportConfig) Validate() error {
+	supportedColumnTypes := map[string]bool{
+		"date":  true,
+		"money": true,
+	}
+	for _, sheet := range c.Sheets {
+		for _, column := range sheet.Columns {
+			if !supportedColumnTypes[column.DataType] {
+				return fmt.Errorf(
+					"unsupported data_type [%s] on sheet [%s] column index [%d]: expected date or money",
+					column.DataType,
+					sheet.Name,
+					column.Index,
+				)
+			}
+		}
+	}
+	return nil
 }

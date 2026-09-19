@@ -2,7 +2,7 @@ package command
 
 import "github.com/spf13/cobra"
 
-// AddCommands add available commands to the speicifed command
+// AddCommands add available commands to the specified command
 func AddCommands(cmd *cobra.Command, cli *ManagerCli) {
 	cmd.AddCommand(
 		NewScreenCommand(cli),

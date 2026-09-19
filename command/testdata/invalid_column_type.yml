@@ -1,0 +1,14 @@
+database_type: mssql
+database:
+  server: example.com
+  port: 1433
+  name: Northwind
+  username: sa
+  password: pass
+sheets:
+  - name: users
+    query: "SELECT TOP 10 * FROM Users"
+    columns:
+      - index: 0
+        data_type: number
+        format: "0.00"
